@@ -21,6 +21,8 @@ class RichStrList:
     TEMPLATE = None
 
     def __init__(self, l):
+        list_obj = self
+
         class InnerRichText(RichStr):
             TEMPLATE = self.TEMPLATE
 
@@ -28,9 +30,12 @@ class RichStrList:
                 self.dic = dic
 
             def get_context(self):
-                return self.dic
+                return list_obj.get_context(self.dic)
 
         self.l = map(InnerRichText, l)
+
+    def get_context(self, dic):
+        return dic
 
     def __str__(self):
         return self.SEPARATOR.join(map(str, self.l))
